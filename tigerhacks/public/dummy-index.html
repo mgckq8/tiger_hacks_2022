@@ -1,0 +1,163 @@
+<!--
+    DUMMY index.html that uses https://opentripmap.io/examples
+    to get the destinations for the locations within the united states.
+    potentially to do: right now I have it hard coded that the
+    country is the united states but it would be nice if the country
+    could be dynamic.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+      *{
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+      }
+    </style>
+    <title>RoadTrip Generator</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <form id="search_form">
+      <label for="name">Name</label>
+      <input id="textbox" type="search" name="name">
+      <button id="button-search" type="submit">Push me</button>
+    </form>
+    <p id="info"></p>
+    <div id="list"></div>
+    <button id="next_button">Next</button>
+  </body>
+
+
+  <script>
+    const pageLength = 5; // number of objects per page
+
+    let lon; // place longitude
+    let lat; // place latitude
+
+    let offset = 0; // offset from first object in the list
+    let count; // total objects count
+    const apiKey = "5ae2e3f221c38a28845f05b69115ae715c39b2204f6e301bad540769";
+
+    function apiGet(method, query) {
+      return new Promise(function(resolve, reject) {
+        var otmAPI =
+          "https://api.opentripmap.com/0.1/en/places/" +
+          method +
+          "?apikey=" +
+          apiKey;
+        if (query !== undefined) {
+          otmAPI += "&" + query;
+        }
+        fetch(otmAPI)
+          .then(response => response.json())
+          .then(data => resolve(data))
+          .catch(function(err) {
+            console.log("Fetch Error :-S", err);
+          });
+      });
+    }
+
+    console.log(document.getElementById("textbox"));
+    document
+    .getElementById("search_form")
+    .addEventListener("submit", function(event) {
+      let name = document.getElementById("textbox").value;
+      apiGet("geoname", "name=" + name).then(function(data) {
+        let message = "Name not found";
+        if (data.status == "OK") {
+          message = data.name + ", " + "United States of America";
+          // message = data.name + ", " + getCountryName(data.country);
+          lon = data.lon;
+          lat = data.lat;
+          firstLoad();
+        }
+        document.getElementById("info").innerHTML = `${message}`;
+      });
+      event.preventDefault();
+    });
+
+    function firstLoad() {
+    apiGet(
+      "radius",
+      `radius=1000&limit=${pageLength}&offset=${offset}&lon=${lon}&lat=${lat}&rate=2&format=count`
+    ).then(function(data) {
+      count = data.count;
+      offset = 0;
+      document.getElementById(
+        "info"
+      ).innerHTML += `<p>${count} objects with description in a 1km radius</p>`;
+      loadList();
+    });
+  }
+
+  function loadList() {
+    apiGet(
+      "radius",
+      `radius=1000&limit=${pageLength}&offset=${offset}&lon=${lon}&lat=${lat}&rate=2&format=json`
+    ).then(function(data) {
+      let list = document.getElementById("list");
+      list.innerHTML = "";
+      data.forEach(item => list.appendChild(createListItem(item)));
+      let nextBtn = document.getElementById("next_button");
+      if (count < offset + pageLength) {
+        nextBtn.style.visibility = "hidden";
+      } else {
+        nextBtn.style.visibility = "visible";
+        nextBtn.innerText = `Next (${offset + pageLength} of ${count})`;
+      }
+    });
+  }
+
+
+  function createListItem(item) {
+    let a = document.createElement("a");
+    a.className = "list-group-item list-group-item-action";
+    a.setAttribute("data-id", item.xid);
+    a.innerHTML = `<h5 class="list-group-item-heading">${item.name}</h5>
+             <p class="list-group-item-text">${item.kinds}</p>`;
+              // <p class="list-group-item-text">${getCategoryName(item.kinds)}</p>`;
+
+    a.addEventListener("click", function() {
+      document.querySelectorAll("#list a").forEach(function(item) {
+        item.classList.remove("active");
+      });
+      this.classList.add("active");
+      let xid = this.getAttribute("data-id");
+      apiGet("xid/" + xid).then(data => onShowPOI(data));
+    });
+    return a;
+  }
+
+  function onShowPOI(data) {
+    let poi = document.getElementById("poi");
+    poi.innerHTML = "";
+    if (data.preview) {
+      poi.innerHTML += `<img src="${data.preview.source}">`;
+    }
+    poi.innerHTML += data.wikipedia_extracts
+      ? data.wikipedia_extracts.html
+      : data.info
+      ? data.info.descr
+      : "No description";
+
+    poi.innerHTML += `<p><a target="_blank" href="${data.otm}">Show more at OpenTripMap</a></p>`;
+  }
+
+  document
+      .getElementById("next_button")
+      .addEventListener("click", function() {
+        offset += pageLength;
+        loadList();
+      });
+  </script>
+</html>
