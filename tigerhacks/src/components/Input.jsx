@@ -6,25 +6,25 @@ export default function Input() {
     const [startLocation, setStartLocation] = React.useState("");
     const [destination, setDestination] = React.useState("");
     const [submitValue, setSubmitValue] = React.useState({
-        startLocation: "",
-        destinationLocation: ""
+        start: "",
+        end: ""
     });
+    
 
-    const handleStartChange = (event) => {
-        setStartLocation(event.target.value);
+    const handleStartChange = e => {
+        setStartLocation(e.target.value);
     }
-    const handleDestinationChange = (event) => {
-        setDestination(event.target.value);
+    const handleDestinationChange = e => {
+        setDestination(e.target.value);
     }
 
     const handleSubmit = () => {
-        const start = startLocation;
-        const destinationLocation = destination;
+
         setSubmitValue({
-            startLocation: start,
-            destinationLocation: destinationLocation
+            start: startLocation,
+            end: destination
         })
-        console.log(submitValue)
+        console.log(submitValue);
 
     }
     return (
