@@ -4,6 +4,9 @@
 [MapBox Tutorial](https://docs.mapbox.com/help/tutorials/getting-started-directions-api/)
 
 
+# Notes
+Lafferre Coordinates:[-92.330150,38.946053] [Longitude, Latitude]
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
