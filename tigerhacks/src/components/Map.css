@@ -1,19 +1,18 @@
 .sectioncontainer{
     height: 75vh;
-    width: 83vw;
-    /* align-content: center;
-    align-items: center; */
+    width: 84vw;
     display: flex;
     align-content: flex-end;
     align-items: center;
     flex-direction: column;
-    border: 2px solid red;
     float: right;
+    margin-right: 10px;
 }
 .map-container {
-    height: 800px;
-    width: 1000px;
+    height: 75vh;
+    width: 84vw;
     display: flex;
+    border-radius: 7px;
 }
 
 .sidebar {

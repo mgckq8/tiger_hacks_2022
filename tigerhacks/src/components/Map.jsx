@@ -9,9 +9,9 @@ export default function Map() {
 
     const mapContainer = useRef(null);
     const map = useRef(null);
-    const [lng, setLng] = useState(-70.9);
-    const [lat, setLat] = useState(42.35);
-    const [zoom, setZoom] = useState(9);
+    const [lng, setLng] = useState(-92.330150);
+    const [lat, setLat] = useState(38.946053);
+    const [zoom, setZoom] = useState(11);
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
