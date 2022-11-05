@@ -22,8 +22,14 @@ export default function Input(){
         setDestination(event.target.value);
     }
     
-    async function getCordinatesFromAPI() {
-        return await fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/Los%20Angeles.json?access_token=pk.eyJ1IjoibWdja3E4IiwiYSI6ImNsYTN6OHpiZzA2YjMzd3A5ZG5vdmE3NnAifQ.Ss29X7LJUswMcvJX5tWexw')
+    async function getCordinatesFromAPI(start) {
+
+        start.replace(/\s/g, '%') 
+        const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' +
+            start +
+            '.json?access_token=pk.eyJ1IjoibWdja3E4IiwiYSI6ImNsYTN6OHpiZzA2YjMzd3A5ZG5vdmE3NnAifQ.Ss29X7LJUswMcvJX5tWexw';
+
+        return await fetch(url)
         .then((response) => response.json())
         .then((responseJson) => {
             const responseCenter = responseJson.features[0].center;
@@ -45,11 +51,12 @@ export default function Input(){
             destinationLocation: destinationLocation
         })
 
-        const cordinates = await getCordinatesFromAPI();
+        const cordinates = await getCordinatesFromAPI(startLocation);
         const longitude = cordinates[0];
         const latitude = cordinates[1];
         console.log("longitude: " + longitude);
         console.log("latitude: " + latitude);
+        console.log(startLocation);
         console.log(submitValue)
 
     }
