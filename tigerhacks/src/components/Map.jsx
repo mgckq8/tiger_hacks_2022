@@ -15,8 +15,19 @@ export default function Map({Data}) {
     const [lat, setLat] = useState(38.946053);
     // eslint-disable-next-line
     const [zoom, setZoom] = useState(11);
+    if (Data) {
+        console.log("This this the passed Data", Data);
+        let DataHold = Data.toString();
+        var arr = DataHold.split(',');
+        console.log("first lat: " + arr[0]);
+        // console.log("This this the passed Data", Object.values(Data));
+    }
+    // console.log("This this the passed Data", Data);
+    // let DataHold = Data.toString();
+    // var arr = DataHold.Split(',');
+    // console.log("first lat: " + arr[0]);
+    // console.log("This this the passed Data", Object.values(Data));
 
-    console.log("This this the passed Data",Data);
 
     useEffect(() => {
         if (map.current) return; // initialize map only once

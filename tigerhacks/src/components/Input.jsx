@@ -72,16 +72,18 @@ export default function Input() {
             startLocation: start,
             destinationLocation: destinationLocation
         })
-        setSubmitLocations({
-            firstLocation:{
-                latitude:startLatitude,
-                longitude:startLongitude
-            },
-            secondLocation:{
-                latitude:destLatitude,
-                longitude:destLongitude
-            }
-        })
+        // setSubmitLocations({
+        //     firstLocation:{
+        //         latitude:startLatitude,
+        //         longitude:startLongitude
+        //     },
+        //     secondLocation:{
+        //         latitude:destLatitude,
+        //         longitude:destLongitude
+        //     }
+        // })
+        setSubmitLocations(startLatitude + "," + startLongitude + "," + destLatitude + "," + destLongitude)
+        // setSubmitLocations = [startLatitude, startLongitude, destLatitude, destLongitude];
         console.log(locations);
     }
     return (
