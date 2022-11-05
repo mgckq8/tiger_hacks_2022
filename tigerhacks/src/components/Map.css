@@ -1,5 +1,5 @@
 .sectioncontainer{
-    height: 75vh;
+    height: 74vh;
     width: 84vw;
     display: flex;
     align-content: flex-end;
@@ -9,7 +9,7 @@
     margin-right: 10px;
 }
 .map-container {
-    height: 75vh;
+    height: 74vh;
     width: 84vw;
     display: flex;
     border-radius: 7px;

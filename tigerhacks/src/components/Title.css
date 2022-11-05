@@ -2,12 +2,14 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    display: flex;
 }
 .title{
-    display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+    align-self: center;
+
 }
 
 .titletext{
@@ -27,4 +29,19 @@
     font-weight: 200;
     font-size: 18px;
     text-align: center;
+    align-content: center;
+    align-items: center;
+}
+.logo{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    align-self: center;
+    width:20vw;
+    height: 10vh;
+    margin-right: 10px;
+}
+.logoimg{
+    width:20vw;
+    height: 10vh;
 }

@@ -7,19 +7,21 @@ import './Map.css';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWdja3E4IiwiYSI6ImNsYTN6OHpiZzA2YjMzd3A5ZG5vdmE3NnAifQ.Ss29X7LJUswMcvJX5tWexw';
 
-export default function Input(){
+export default function Input() {
     const [startLocation, setStartLocation] = React.useState("");
     const [destination, setDestination] = React.useState("");
     const [submitValue, setSubmitValue] = React.useState({
+  geocoding
         startLocation: "",
         destinationLocation: ""
     });
 
-    const handleStartChange = (event) => {
-        setStartLocation(event.target.value);
+
+    const handleStartChange = e => {
+        setStartLocation(e.target.value);
     }
-    const handleDestinationChange = (event) => {
-        setDestination(event.target.value);
+    const handleDestinationChange = e => {
+        setDestination(e.target.value);
     }
     
     async function getCordinatesFromAPI(start) {
