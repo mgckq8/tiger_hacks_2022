@@ -1,6 +1,27 @@
-.inputcontainer{
-    margin-top: 30px;
+.inputcontainer {
+    margin-top: 15px;
+    margin-bottom: 10px;
     justify-content: center;
     align-items: center;
     text-align: center;
+    align-self: center;
+}
+
+.textfields {
+    align-items: center;
+    text-align: center;
+    align-self: center;
+    align-content: center;
+
+}
+
+.submitbutton {
+    align-items: center;
+    text-align: center;
+    align-self: center;
+    flex-direction: column;
+}
+
+.inputItem {
+    width: 15vw;
 }

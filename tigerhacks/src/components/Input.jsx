@@ -1,10 +1,14 @@
-import { TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import React from 'react';
 import './Input.css'
 
-export default function Input(){
+export default function Input() {
     const [startLocation, setStartLocation] = React.useState("");
     const [destination, setDestination] = React.useState("");
+    const [submitValue, setSubmitValue] = React.useState({
+        startLocation: "",
+        destinationLocation: ""
+    });
 
     const handleStartChange = (event) => {
         setStartLocation(event.target.value);
@@ -12,11 +16,26 @@ export default function Input(){
     const handleDestinationChange = (event) => {
         setDestination(event.target.value);
     }
-    
-    return(
+
+    const handleSubmit = () => {
+        const start = startLocation;
+        const destinationLocation = destination;
+        setSubmitValue({
+            startLocation: start,
+            destinationLocation: destinationLocation
+        })
+        console.log(submitValue)
+
+    }
+    return (
         <div className="inputcontainer">
-            <TextField label="Start Location" value={startLocation} onChange={handleStartChange}/>
-            <TextField label="Destination" value={destination} onChange={handleDestinationChange}/>
+            <div className='textfields'>
+                <TextField size="small" className='inputItem' label="Start Location" value={startLocation} onChange={handleStartChange} />
+                <TextField size="small" className='inputItem' label="Destination" value={destination} onChange={handleDestinationChange} />
+            </div>
+            <div className='submitbutton'>
+                <Button className='inputItem' onClick={handleSubmit} variant="contained" size='small'>Submit</Button>
+            </div>
         </div>
     )
 }
