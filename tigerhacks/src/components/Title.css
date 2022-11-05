@@ -42,6 +42,7 @@
     margin-right: 10px;
 }
 .logoimg{
-    width:20vw;
+    width:15vw;
     height: 10vh;
+    object-fit: fill;
 }
