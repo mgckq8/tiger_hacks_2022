@@ -136,6 +136,11 @@ export default function Map({Data}) {
                 // map.current(geojson);
                 // map.current.setData(geojson);
             //    await geojsonSource.setData(geojson);
+                // map.current.addSource('line', {
+                //     type: 'geojson',
+                //     lineMetrics: true,
+                //     data: geojsonSource
+                // });
                  await map.current.addLayer({  // STYLE IS NOT DONE LOADING
                     id: 'point',
                     type: 'circle',
@@ -148,8 +153,8 @@ export default function Map({Data}) {
                             type: 'Feature',
                             properties: {},
                             geometry: {
-                            type: 'Point',
-                            coordinates: [startLongitude, startLatitude]
+                            type: 'LineString',
+                            coordinates: route
                             }
                         }
                         ]
@@ -191,10 +196,13 @@ export default function Map({Data}) {
                         features: [
                             {
                             type: 'Feature',
-                            properties: {},
+                            // properties: {},
                             geometry: {
-                                type: 'Point',
-                                coordinates: [destLongitude, destLatitude]
+                                properties: {},
+                                // type: 'LineString',
+                                coordinates: route,
+                                type: 'LineString'
+                                // coordinates: [destLongitude, destLatitude]
                             }
                             }
                         ]
