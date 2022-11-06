@@ -113,21 +113,8 @@ export default function Map({ Data }) {
         );
         const json = await routeQuery.json();
         const data = json.routes[0];
-        const route = data.geometry.coordinates; // THIS IS HOW WE DO THE IMPORTANT POINTS ALONG THE WAY !!!!! UNEXPECTED DUB ??!!???
+        const route = data.geometry.coordinates; 
         const routelength = route.length;
-        // const increment = Math.ceil(routelength/ 10);
-        // var count = increment;
-        // var dummy = [];
-        // if(route){
-        //    for(count; count<routelength; count+=increment){
-        //     dummy.push(route[count]);
-        // } 
-        // }
-        // for(count; count<routelength; count+=increment){
-        //     dummy.push(route[count]);
-        //     console.log(dummy)
-        // }
-        // setRouteInfo(dummy)
         setRouteInfo(route);
         await map.current.addSource('source_id', {
             type: 'geojson',
@@ -216,8 +203,8 @@ export default function Map({ Data }) {
                         }
                     },
                     paint: {
-                        'circle-radius': 10,
-                        'circle-color': '#9cc291'
+                        'line-color': 'black',
+                        'line-width': 5,
                     }
                 });
             }

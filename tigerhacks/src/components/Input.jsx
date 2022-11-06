@@ -59,10 +59,6 @@ export default function Input() {
         const destCordinates = await getCordinatesFromAPI(destination);
         const destLongitude = destCordinates[0];
         const destLatitude = destCordinates[1];
-        console.log(" start longitude: ", startLongitude);
-        console.log(" start latitude: ", startLatitude);
-        console.log("des longitude ", destLongitude);
-        console.log("des latitude ", destLatitude);
         var firstLocation = new Location();
         firstLocation.locationName = startLocation;
         firstLocation.latitude = startLatitude;
@@ -73,10 +69,7 @@ export default function Input() {
         secondLocation.longitude = destLongitude;
         const start = startLocation;
         const destinationLocation = destination;
-        console.log("Start Location", firstLocation);
-        console.log("Dest Location", secondLocation);
         setSubmitLocations(startLatitude + "," + startLongitude + "," + destLatitude + "," + destLongitude)
-        // setSubmitLocations = [startLatitude, startLongitude, destLatitude, destLongitude];   
         await sleep(2000);
         setSubmitLocations(null);
     }

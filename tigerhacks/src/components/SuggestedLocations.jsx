@@ -24,51 +24,6 @@ export default function SuggestedLocations({RouteInfo}) {
     let lat =40.71224487090236;
     let newRouteInfo;
     const hasFailed = false;
-    // const newRouteInfo = useRef(null);
-    // console.log(RouteInfo);
-    // if (!hasFailed) {
-    //     if(RouteInfo){
-    //         newRouteInfo = RouteInfo;
-    //         const arrLen = newRouteInfo.length;
-    //         var addressArr = []
-    //         const increment = Math.ceil(arrLen/ 10);
-    //         var i = increment;
-    //         var dummy = [];
-    //         var temp =[];
-    //         if (!hasFailed) {
-    //         for(i; i<arrLen; i+=increment){
-    //             lon = newRouteInfo[i][0];
-    //             lat = newRouteInfo[i][1];
-    //             addressArr[i] += getAddressesFromAPI(newRouteInfo[i][0], newRouteInfo[i][1])
-    //             temp[i] = addressArr[i];
-
-    //             // dummy[i] += loadList(newRouteInfo[i][0], newRouteInfo[i][1])
-    //         } 
-    //         setCards(temp)
-    //         console.log("Card stuff",cards)
-    //     }
-    //     }
-    // }
-    // function sleep(ms) {
-    //     return new Promise(resolve => setTimeout(resolve, ms));
-    //  }
-
-    // if (RouteInfo) {
-    //     newRouteInfo = RouteInfo;
-    //     const arrLen = newRouteInfo.length;
-    //     var addressArr = []
-    //     for (var i =0; i < arrLen; i++) {
-    //         addressArr += getAddressesFromAPI(newRouteInfo[i][0], newRouteInfo[i][1])
-    //     } 
-    // }
-
-
-
-    //https://api.mapbox.com/geocoding/v5/mapbox.places/-73.989,40.733.
-    //json?access_token=pk.eyJ1IjoibWdja3E4IiwiYSI6ImNsYTN6OHpiZzA2YjMzd
-    //3A5ZG5vdmE3NnAifQ.Ss29X7LJUswMcvJX5tWexw
-
-
 
     async function getAddressesFromAPI(long, lat) {
 
@@ -89,25 +44,6 @@ export default function SuggestedLocations({RouteInfo}) {
             });
     }
 
-    // "radius",
-    // `radius=10000&limit=${pageLength}&offset=${offset}&lon=${lon}&lat=${lat}&rate=2&format=json`
-
-    // useEffect(() => {
-    //     let query="radius=10000&limit="
-    //     + pageLength
-    //     + "&offset=" + offset + "&lon=" + lon + "&lat=" +lat +"&rate=2&format=json";
-
-    //     let url = "https://api.opentripmap.com/0.1/en/places/" +
-    //     "radius" +
-    //     "?apikey=" + apiKey;
-    //     if (query !== undefined) {
-    //         url += "&" + query;
-    //     }
-
-    //     fetch(url).then(res => res.json()).then(data=> {
-    //         setapiVal(data);
-    //     })
-    // }, [])
 
     async function apiGet(method, query) {
         if (!hasFailed) {
@@ -121,9 +57,6 @@ export default function SuggestedLocations({RouteInfo}) {
             return await fetch(url)
                 .then((response) => response.json())
                 .then((responseJson) => {
-                    // console.log("apiget : " + responseJson);
-                    // apiCallsCount++;
-
                     return responseJson;
                 })
                 .catch((error) => {
@@ -133,25 +66,6 @@ export default function SuggestedLocations({RouteInfo}) {
     }
     async function handleSubmit() {
         loadList();
-        // if (RouteInfo) {
-
-    // }
-        // setSubmitValue({
-        //     location: "New York City"
-        // })
-        // let name = "New York City";
-        // await apiGet("geoname", "name=" + name).then(function (data) {
-        //     let message = "Name not found.";
-        //     if (data.status === "OK") {
-        //         console.log(data);
-        //         message = data.name + ', ' + 'United States of America';
-        //         // message = data.name + ", " + getCountryName(data.country);
-        //         lon = data.lon;
-        //         lat = data.lat;
-        //         firstLoad();
-        //     }
-        // });
-        // console.log(submitValue)
     }
 
     async function firstLoad() {
@@ -161,18 +75,10 @@ export default function SuggestedLocations({RouteInfo}) {
         ).then(function (data) {
             count = data.count;
             offset = 0;
-            //   document.getElementById(
-            //     "info"
-            //   ).innerHTML += `<p>${count} objects with description in a 1km radius</p>`;
             loadList();
         });
     }
 
-    // TODO !!!!
-    /*
-      format the list being passed so that the data goes into the cards instead of into
-      the <p> element "list".
-    */
     async function loadList() {
         if (!hasFailed) {
         await apiGet(
@@ -180,37 +86,10 @@ export default function SuggestedLocations({RouteInfo}) {
             `radius=10000&limit=${pageLength}&offset=${offset}&lon=${lon}&lat=${lat}&rate=2&format=json`
         ).then(function (data) {
             setCards(data)
-            console.log(cards);
-            //   let nextBtn = document.getElementById("nextBtn");
-            //   if (count < offset + pageLength) S
-            //     nextBtn.style.visibility = "hidden";
-            //   } else {
-            //     nextBtn.style.visibility = "visible";
-            //     nextBtn.innerText = `Next (${offset + pageLength} of ${count})`;
-            //   }
         });
     }
 
     }
-    //   function onShowPOI(data) {
-    //     let poi = document.getElementById("poi");
-    //     poi.innerHTML = "";
-    //     if (data.preview) {
-    //       poi.innerHTML += `< img src = "${data.preview.source}" > `;
-    //     }
-    //     poi.innerHTML += data.wikipedia_extracts
-    //       ? data.wikipedia_extracts.html
-    //       : data.info
-    //       ? data.info.descr
-    //       : "No description";
-
-    //     poi.innerHTML += `< p > <a target="_blank" href="${data.otm}">Show more at OpenTripMap</a></p > `;
-    //   }
-
-    // async function handleNext() {
-    //     offset += pageLength;
-    //     await loadList();
-    // }
 
     return (
         <div className="cardsContainter">
