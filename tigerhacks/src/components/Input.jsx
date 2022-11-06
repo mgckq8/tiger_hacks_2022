@@ -11,7 +11,6 @@ export default function Input() {
     const [startLocation, setStartLocation] = React.useState("");
     const [destination, setDestination] = React.useState("");
     const [submitValue, setSubmitValue] = React.useState({
-  geocoding
         startLocation: "",
         destinationLocation: ""
     });
