@@ -143,7 +143,7 @@ export default function Map({Data}) {
                 // });
                  await map.current.addLayer({  // STYLE IS NOT DONE LOADING
                     id: 'point',
-                    type: 'circle',
+                    type: 'line',
                     source: {
                     type: 'geojson',
                     data: {
@@ -161,9 +161,8 @@ export default function Map({Data}) {
                     }
                 },
                     paint: {
-                    'circle-radius': 10,
-                    // 'circle-color': '#ffffff'
-                      'circle-color': '#3887be'
+                        'line-color': 'red',
+                        'line-width': 5,
                     }
                 });
         
@@ -188,7 +187,7 @@ export default function Map({Data}) {
                     console.log('3')   ;
                     await map.current.addLayer({
                     id: 'end',
-                    type: 'circle',
+                    type: 'line',
                     source: {
                         type: 'geojson',
                         data: {
