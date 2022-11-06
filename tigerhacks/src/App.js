@@ -11,7 +11,6 @@ function App() {
         <Title/>
         <Input/>
         <SuggestedLocations/>
-        <Map/>
       </div>
     )
   }
