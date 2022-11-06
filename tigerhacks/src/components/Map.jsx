@@ -38,7 +38,7 @@ export default function Map({ Data }) {
     const [routeInfo, setRouteInfo] = useState();
 
     if (Data) {
-        console.log("This is data", Data)
+        // console.log("This is data", Data)
         let DataHold = Data.toString();
         var arr = DataHold.split(',');
 
@@ -115,19 +115,20 @@ export default function Map({ Data }) {
         const data = json.routes[0];
         const route = data.geometry.coordinates; // THIS IS HOW WE DO THE IMPORTANT POINTS ALONG THE WAY !!!!! UNEXPECTED DUB ??!!???
         const routelength = route.length;
-        const increment = Math.ceil(routelength/ 10);
-        var count = increment;
-        var dummy = [];
-        if(route){
-           for(count; count<routelength; count+=increment){
-            dummy.push(route[count]);
-        } 
-        }
+        // const increment = Math.ceil(routelength/ 10);
+        // var count = increment;
+        // var dummy = [];
+        // if(route){
+        //    for(count; count<routelength; count+=increment){
+        //     dummy.push(route[count]);
+        // } 
+        // }
         // for(count; count<routelength; count+=increment){
         //     dummy.push(route[count]);
         //     console.log(dummy)
         // }
-        setRouteInfo(dummy)
+        // setRouteInfo(dummy)
+        setRouteInfo(route);
         await map.current.addSource('source_id', {
             type: 'geojson',
             data: {
@@ -246,6 +247,8 @@ export default function Map({ Data }) {
     return (
         <><div className='sectioncontainer'>
             <div ref={mapContainer} className="map-container" />
-        </div><SuggestedLocations RouteInfo={routeInfo} /></>
+        </div>
+        {/* <SuggestedLocations RouteInfo={routeInfo} /> */}
+        </>
     );
 }
