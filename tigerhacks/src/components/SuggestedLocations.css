@@ -55,3 +55,6 @@
 .scrollable::-webkit-scrollbar{
     display: none;  /* Safari and Chrome */
 }
+#submitBtn {
+    width: auto;
+}

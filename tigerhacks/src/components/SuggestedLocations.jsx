@@ -214,11 +214,13 @@ export default function SuggestedLocations({RouteInfo}) {
 
     return (
         <div className="cardsContainter">
-            <button id="submitBtn" onClick={handleSubmit}>Submit</button>
             {/* <button id="nextBtn" onClick={handleNext}>Next</button> */}
             <div className="section">
                 <div className="containertitle">
-                    <p className='containertitletext'>Suggested Locations</p>
+                {/* <Button className='inputItem' onClick={handleClear} variant="contained" size='small'>Clear</Button> */}
+
+                <Button className='inputItem'id="submitBtn" onClick={handleSubmit} variant="contained" size='small'>Find Suggested Locations</Button>
+                    {/* <p className='containertitletext'>Suggested Locations</p> */}
                 </div>
                 <div className="scrollable">
                     { cards && cards.map((item, index) =>
@@ -233,7 +235,7 @@ export default function SuggestedLocations({RouteInfo}) {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button size="small">Learn More</Button>
+                                    {/* <Button size="small">Learn More</Button> */}
                                 </CardActions>
                             </Card>
                         </div>
