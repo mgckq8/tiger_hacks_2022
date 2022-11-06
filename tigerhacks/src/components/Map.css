@@ -13,6 +13,8 @@
     width: 84vw;
     display: flex;
     border-radius: 7px;
+    background: #eee;
+    box-shadow: 0 8px 8px -4px lightblue;
 }
 
 .sidebar {
