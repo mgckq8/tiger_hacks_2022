@@ -7,17 +7,16 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './SuggestedLocations.css'
 
-export default function SuggestedLocations() {
+export default function SuggestedLocations({RouteInfo}) {
     const [submitValue, setSubmitValue] = React.useState({
         location: ""
     });
     const [cards, setCards] = React.useState("");
-
     const pageLength = 10; // number of objects per page
 
     let lon;
     let lat;
-
+    console.log(RouteInfo);
     let offset = 0; // offset from first object in the list
     let count; // total objects count
     const apiKey = "5ae2e3f221c38a28845f05b69115ae715c39b2204f6e301bad540769";

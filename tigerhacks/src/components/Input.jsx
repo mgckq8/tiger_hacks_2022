@@ -16,7 +16,7 @@ export default function Input() {
     });
     const [submitLocations, setSubmitLocations] = React.useState();
 
-
+    
     const handleStartChange = e => {
         setStartLocation(e.target.value);
     }
@@ -49,7 +49,9 @@ export default function Input() {
                 console.error(error);
             });
     }
-
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+     }
     async function handleSubmit() {
         const startCordinates = await getCordinatesFromAPI(startLocation);
         const startLongitude = startCordinates[0];
@@ -73,23 +75,10 @@ export default function Input() {
         const destinationLocation = destination;
         console.log("Start Location", firstLocation);
         console.log("Dest Location", secondLocation);
-        setLocations({
-            startLocation: start,
-            destinationLocation: destinationLocation
-        })
-        // setSubmitLocations({
-        //     firstLocation:{
-        //         latitude:startLatitude,
-        //         longitude:startLongitude
-        //     },
-        //     secondLocation:{
-        //         latitude:destLatitude,
-        //         longitude:destLongitude
-        //     }
-        // })
         setSubmitLocations(startLatitude + "," + startLongitude + "," + destLatitude + "," + destLongitude)
-        // setSubmitLocations = [startLatitude, startLongitude, destLatitude, destLongitude];
-        console.log(locations);
+        // setSubmitLocations = [startLatitude, startLongitude, destLatitude, destLongitude];   
+        await sleep(2000);
+        setSubmitLocations(null);
     }
     return (
         <><div className="inputcontainer">
