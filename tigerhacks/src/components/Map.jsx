@@ -35,7 +35,6 @@ export default function Map({Data}) {
     // eslint-disable-next-line
     const [zoom, setZoom] = useState(11);
     if (Data) {
-        console.log("This this the passed Data", Data);
         let DataHold = Data.toString();
         var arr = DataHold.split(',');
 
@@ -55,13 +54,15 @@ export default function Map({Data}) {
             });
 
             const marker = new mapboxgl.Marker({
-                draggable: true
+                draggable: true,
+                color: '#7494b4'
             })
             .setLngLat([startLongitude, startLatitude])
             .addTo(map.current);
 
             const marker2 = new mapboxgl.Marker({
-                draggable: true
+                draggable: true,
+                color: '#2b4373'
             })
             .setLngLat([destLongitude, destLatitude])
             .addTo(map.current);
@@ -74,6 +75,7 @@ export default function Map({Data}) {
         if (map.current) return; // initialize map only once
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
+            // style: 'mapbox://styles/mapbox/dark-v10',
             style: 'mapbox://styles/mapbox/streets-v11',
             center: [lng, lat],
             zoom: zoom
@@ -105,130 +107,123 @@ export default function Map({Data}) {
             `https://api.mapbox.com/directions/v5/mapbox/driving/${startLongitude},${startLatitude};${destLongitude},${destLatitude}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
             { method: 'GET' }
         );
-
         const json = await routeQuery.json();
-        console.log("my route json " + json.toString());
         const data = json.routes[0];
         const route = data.geometry.coordinates; // THIS IS HOW WE DO THE IMPORTANT POINTS ALONG THE WAY !!!!! UNEXPECTED DUB ??!!???
-        console.log("this is the route ?????? " + route);
-        const geojson = {
-          type: 'Feature',
-          properties: {},
-          geometry: {
-            type: 'LineString',
-            coordinates: route
-          }
-        };
-        // if the route already exists on the map, we'll reset it using setData
+        await map.current.addSource('source_id', {
+                type: 'geojson',
+                data: {
+                type: 'FeatureCollection',
+                features: []
+                }
+            });
+            const geojsonSource = await map.current.getSource('source_id');
+            // Update the data after the GeoJSON source was created
+            await geojsonSource.setData({
+                "type": "FeatureCollection",
+                "features": [{
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": route
+                }
+                }]
+            });
+
+            if (map.current) {
+                 await map.current.addLayer({  
+                    id: 'point',
+                    type: 'line',
+                    source: {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: [
+                        {
+                            type: 'Feature',
+                            properties: {},
+                            geometry: {
+                            type: 'LineString',
+                            coordinates: route
+                            }
+                        }
+                        ]
+                    }
+                },
+                    paint: {
+                        'line-color': 'black',
+                        'line-width': 5,
+                    }
+                });
         
-        // if (map.getSource('route')) {
-        //   map.getSource('route').setData(geojson);
-        // }
-        if (map.current) {
-            map.current.Data(geojson);
-            // map.current.setData(geojson);
-          }
-        // otherwise, we'll make a new request
-        else {
-          map.addLayer({
-            id: 'route',
-            type: 'line',
-            source: {
-              type: 'geojson',
-              data: geojson
-            },
-            layout: {
-              'line-join': 'round',
-              'line-cap': 'round'
-            },
-            paint: {
-              'line-color': '#3887be',
-              'line-width': 5,
-              'line-opacity': 0.75
+                const end = {
+                    type: 'FeatureCollection',
+                    features: [
+                    {
+                        type: 'Feature',
+                        properties: {},
+                        geometry: {
+                        type: 'Point',
+                        coordinates: [destLongitude, destLatitude]
+                        }
+                    }
+                    ]
+                };
+            
+                if (map.current.getLayer('end')) {
+                    await map.current.getSource('end').setData(end);
+                } else {
+                    await map.current.addLayer({
+                    id: 'end',
+                    type: 'line',
+                    source: {
+                        type: 'geojson',
+                        data: {
+                        type: 'FeatureCollection',
+                        features: [
+                            {
+                            type: 'Feature',
+                            // properties: {},
+                            geometry: {
+                                properties: {},
+                                // type: 'LineString',
+                                coordinates: route,
+                                type: 'LineString'
+                                // coordinates: [destLongitude, destLatitude]
+                            }
+                            }
+                        ]
+                        }
+                    },
+                    paint: {
+                        'circle-radius': 10,
+                        'circle-color': '#9cc291'
+                    }
+                    });
             }
-          });
-        }
-        // add turn instructions here at the end
-      }
-
-      // end
-
-//       map.on('load', () => {
-//         // make an initial directions request that
-//         // starts and ends at the same location
-//         getRoute(start);
-//         // Add starting point to the map
-//         map.addLayer({
-//           id: 'point',
-//           type: 'circle',
-//           source: {
-//             type: 'geojson',
-//             data: {
-//               type: 'FeatureCollection',
-//               features: [
-//                 {
-//                   type: 'Feature',
-//                   properties: {},
-//                   geometry: {
-//                     type: 'Point',
-//                     coordinates: start
-//                   }
-//                 }
-//               ]
-//             }
-//           },
-//           paint: {
-//             'circle-radius': 10,
-//             'circle-color': '#3887be'
-//           }
-//         });
-//   // this is where the code from the next step will go
-//         });
-//         map.on('click', (event) => {
-//       const coords = Object.keys(event.lngLat).map((key) => event.lngLat[key]);
-//       const end = {
-//         type: 'FeatureCollection',
-//         features: [
-//           {
-//             type: 'Feature',
-//             properties: {},
-//             geometry: {
-//               type: 'Point',
-//               coordinates: coords
-//             }
-//           }
-//         ]
-//       };
-//       if (map.getLayer('end')) {
-//         map.getSource('end').setData(end);
-//       } else {
-//         map.addLayer({
-//           id: 'end',
-//           type: 'circle',
-//           source: {
-//             type: 'geojson',
-//             data: {
-//               type: 'FeatureCollection',
-//               features: [
-//                 {
-//                   type: 'Feature',
-//                   properties: {},
-//                   geometry: {
-//                     type: 'Point',
-//                     coordinates: coords
-//                   }
-//                 }
-//               ]
-//             }
-//           },
-//           paint: {
-//             'circle-radius': 10,
-//             'circle-color': '#f30'
-//           }
-//         });
-//       }
-//       getRoute(coords);
-//     });
+            }
+            // otherwise, we'll make a new request
+            else {
+            await map.addLayer({
+                id: 'route',
+                type: 'line',
+                source: {
+                type: 'geojson',
+                data: geojsonSource // quewstionable
+                },
+                layout: {
+                'line-join': 'round',
+                'line-cap': 'round'
+                },
+                paint: {
+                'line-color': '#9cc291',
+                'line-width': 5,
+                'line-opacity': 0.75
+                }
+            });
+            }
+    }
 
     return (
         <div className='sectioncontainer'>

@@ -24,6 +24,11 @@ export default function Input() {
         setDestination(e.target.value);
     }
 
+    const handleClear = () => {
+        setStartLocation('');
+        setDestination('');
+    }
+
     async function getCordinatesFromAPI(start) {
 
         start.replace(/\s/g, '%')
@@ -94,6 +99,7 @@ export default function Input() {
             </div>
             <div className='submitbutton'>
                 <Button className='inputItem' onClick={handleSubmit} variant="contained" size='small'>Submit</Button>
+                <Button className='inputItem' onClick={handleClear} variant="contained" size='small'>Clear</Button>
             </div>
         </div><Map Data={submitLocations}/>
         </>
