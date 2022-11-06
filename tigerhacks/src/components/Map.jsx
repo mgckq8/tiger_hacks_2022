@@ -35,7 +35,6 @@ export default function Map({Data}) {
     // eslint-disable-next-line
     const [zoom, setZoom] = useState(11);
     if (Data) {
-        // console.log("This this the passed Data", Data);
         let DataHold = Data.toString();
         var arr = DataHold.split(',');
 
@@ -55,13 +54,15 @@ export default function Map({Data}) {
             });
 
             const marker = new mapboxgl.Marker({
-                draggable: true
+                draggable: true,
+                color: '#7494b4'
             })
             .setLngLat([startLongitude, startLatitude])
             .addTo(map.current);
 
             const marker2 = new mapboxgl.Marker({
-                draggable: true
+                draggable: true,
+                color: '#2b4373'
             })
             .setLngLat([destLongitude, destLatitude])
             .addTo(map.current);
@@ -74,6 +75,7 @@ export default function Map({Data}) {
         if (map.current) return; // initialize map only once
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
+            // style: 'mapbox://styles/mapbox/dark-v10',
             style: 'mapbox://styles/mapbox/streets-v11',
             center: [lng, lat],
             zoom: zoom
@@ -106,10 +108,8 @@ export default function Map({Data}) {
             { method: 'GET' }
         );
         const json = await routeQuery.json();
-        // console.log("my route json " + json.toString());
         const data = json.routes[0];
         const route = data.geometry.coordinates; // THIS IS HOW WE DO THE IMPORTANT POINTS ALONG THE WAY !!!!! UNEXPECTED DUB ??!!???
-        console.log('right b4')   ;
         await map.current.addSource('source_id', {
                 type: 'geojson',
                 data: {
@@ -132,16 +132,7 @@ export default function Map({Data}) {
             });
 
             if (map.current) {
-                console.log('1')   ;
-                // map.current(geojson);
-                // map.current.setData(geojson);
-            //    await geojsonSource.setData(geojson);
-                // map.current.addSource('line', {
-                //     type: 'geojson',
-                //     lineMetrics: true,
-                //     data: geojsonSource
-                // });
-                 await map.current.addLayer({  // STYLE IS NOT DONE LOADING
+                 await map.current.addLayer({  
                     id: 'point',
                     type: 'line',
                     source: {
@@ -161,7 +152,7 @@ export default function Map({Data}) {
                     }
                 },
                     paint: {
-                        'line-color': 'red',
+                        'line-color': 'black',
                         'line-width': 5,
                     }
                 });
@@ -182,9 +173,7 @@ export default function Map({Data}) {
             
                 if (map.current.getLayer('end')) {
                     await map.current.getSource('end').setData(end);
-                    console.log('2')   ;
                 } else {
-                    console.log('3')   ;
                     await map.current.addLayer({
                     id: 'end',
                     type: 'line',
@@ -209,15 +198,13 @@ export default function Map({Data}) {
                     },
                     paint: {
                         'circle-radius': 10,
-                        'circle-color': '#f30'
+                        'circle-color': '#9cc291'
                     }
                     });
-                
             }
             }
             // otherwise, we'll make a new request
             else {
-                console.log('4')   ;
             await map.addLayer({
                 id: 'route',
                 type: 'line',
@@ -230,97 +217,13 @@ export default function Map({Data}) {
                 'line-cap': 'round'
                 },
                 paint: {
-                'line-color': '#3887be',
+                'line-color': '#9cc291',
                 'line-width': 5,
                 'line-opacity': 0.75
                 }
             });
             }
-
-        // add turn instructions here at the end
-    //   }
-    console.log('5')   ;
     }
-
-      // end
-
-    //   map.on('load', () => {
-    //     // make an initial directions request that
-    //     // starts and ends at the same location
-    //     setRoute([startLatitude, startLongitude]);
-        // Add starting point to the map
-        // map.addLayer({
-        //   id: 'point',
-        //   type: 'circle',
-        //   source: {
-        //     type: 'geojson',
-        //     data: {
-        //       type: 'FeatureCollection',
-        //       features: [
-        //         {
-        //           type: 'Feature',
-        //           properties: {},
-        //           geometry: {
-        //             type: 'Point',
-        //             coordinates: [startLatitude, startLongitude]
-        //           }
-        //         }
-        //       ]
-        //     }
-        // },
-        //   paint: {
-        //     'circle-radius': 10,
-        //     'circle-color': '#3887be'
-        //   }
-        // });
-//   // this is where the code from the next step will go
-        // });
-    //     map.on('click', (event) => {
-    //   const coords = Object.keys(event.lngLat).map((key) => event.lngLat[key]);
-    //   const end = {
-    //     type: 'FeatureCollection',
-    //     features: [
-    //       {
-    //         type: 'Feature',
-    //         properties: {},
-    //         geometry: {
-    //           type: 'Point',
-    //           coordinates: coords
-    //         }
-    //       }
-    //     ]
-    //   };
-    //   if (map.getLayer('end')) {
-    //     map.getSource('end').setData(end);
-    //   } else {
-    //     map.addLayer({
-    //       id: 'end',
-    //       type: 'circle',
-    //       source: {
-    //         type: 'geojson',
-    //         data: {
-    //           type: 'FeatureCollection',
-    //           features: [
-    //             {
-    //               type: 'Feature',
-    //               properties: {},
-    //               geometry: {
-    //                 type: 'Point',
-    //                 coordinates: coords
-    //               }
-    //             }
-    //           ]
-    //         }
-    //       },
-    //       paint: {
-    //         'circle-radius': 10,
-    //         'circle-color': '#f30'
-    //       }
-    //     });
-    //   }
-    // //   setRoute(coords);
-    // });
-// }
 
     return (
         <div className='sectioncontainer'>
